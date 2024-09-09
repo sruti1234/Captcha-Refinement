@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script>
+        // Initialize variables for tracking metrics
+        let startTime = Date.now();
+        let mouseMovement = 0;
+        let keyStrokes = 0;
+
+        // Track mouse movements
+        document.addEventListener('mousemove', function() {
+            mouseMovement += 1;  // Increment mouse movement counter
+        });
+
+        // Track key presses
+        document.addEventListener('keypress', function() {
+            keyStrokes += 1;  // Increment keystroke counter
+        });
+
+        // On form submission, calculate metrics and append them to the form
+        function calculateMetrics() {
+            let endTime = Date.now();
+            let timeTaken = (endTime - startTime) / 1000;  // Calculate time taken in seconds
+            let typingSpeed = keyStrokes / timeTaken;  // Calculate typing speed
+
+            // Append these metrics as hidden fields in the form
+            let form = document.querySelector('form');
+            
+            let timeField = document.createElement('input');
+            timeField.setAttribute('type', 'hidden');
+            timeField.setAttribute('name', 'time_taken');
+            timeField.setAttribute('value', timeTaken);
+            form.appendChild(timeField);
+
+            let speedField = document.createElement('input');
+            speedField.setAttribute('type', 'hidden');
+            speedField.setAttribute('name', 'typing_speed');
+            speedField.setAttribute('value', typingSpeed);
+            form.appendChild(speedField);
+
+            let movementField = document.createElement('input');
+            movementField.setAttribute('type', 'hidden');
+            movementField.setAttribute('name', 'mouse_movement');
+            movementField.setAttribute('value', mouseMovement);
+            form.appendChild(movementField);
+        }
+    </script>
+</head>
+<body>
+    <h1>Login Page</h1>
+    <form action="/predict" method="POST" onsubmit="calculateMetrics()">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
